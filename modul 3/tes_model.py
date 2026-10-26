@@ -1,13 +1,21 @@
-from models.model_buku import BukuModel
+
+from models.buku_model import BukuModel
 
 model = BukuModel()
 
-print("Menambahkan data buku...")
-model.create_buku("Pemrograman Python MVC", "Guido van Rossum", 2023)
-print("Data berhasil disimpan ke Laragon MySQL!")
+# Menguji penambahan buku
+berhasil = model.create_buku(
+    "Pemrograman Python",
+    "Guido van Rossum",
+    2023
+)
 
-print("\n=== Daftar Buku ===")
+if berhasil:
+    print("Data buku berhasil ditambahkan.")
+
+# Menguji pembacaan data
+print("\nDaftar Buku:")
 daftar_buku = model.get_all_buku()
 
 for buku in daftar_buku:
-    print(f"[{buku['id_buku']}] {buku['judul']} - {buku['penulis']} ({buku['tahun_terbit']})")
+    print(buku)

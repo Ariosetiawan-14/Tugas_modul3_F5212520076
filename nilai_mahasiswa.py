@@ -31,14 +31,14 @@ if nilai_akhir >= 65:
     keterangan = "LULUS"
 else:
     keterangan = "TIDAK LULUS"
-90
+
 # Menampilkan hasil
 print("\n=== HASIL NILAI MAHASISWA ===")
-print("Nama        :", nama)
-print("NIM         :", nim)
-print("Nilai Tugas :", tugas)
-print("Nilai UTS   :", uts)
-print("Nilai UAS   :", uas)
-print("Nilai Akhir :", nilai_akhir)
-print("Grade       :", grade)
-print("Keterangan  :", keterangan)
+print("Nama         :", nama)
+print("NIM          :", nim)
+print("Nilai Tugas  :", tugas)
+print("Nilai UTS    :", uts)
+print("Nilai UAS    :", uas)
+print("Nilai Akhir  :", nilai_akhir)
+print("Grade        :", grade)
+print("Keterangan   :", keterangan)

@@ -1,3 +1,4 @@
+
 import mysql.connector
 from mysql.connector import Error
 
@@ -5,23 +6,23 @@ from mysql.connector import Error
 class Database:
     def __init__(self):
         self.host = "localhost"
-        self.db_name = "perpustakaan"
-        self.username = "root"
+        self.database = "perpustakaan"
+        self.user = "root"
         self.password = ""
-        self.conn = None
-
+        
     def get_connection(self):
         try:
-            self.conn = mysql.connector.connect(
+            conn = mysql.connector.connect(
                 host=self.host,
-                database=self.db_name,
-                user=self.username,
+                database=self.database,
+                user=self.user,
                 password=self.password
             )
-
-            if self.conn.is_connected():
-                return self.conn
+            if conn.is_connected():
+                print("Koneksi database berhasil!")
+                return conn
 
         except Error as e:
-            print(f"Koneksi Gagal: {e}")
-            return None
+            print(f"Koneksi database gagal: {e}")
+
+        return None
