@@ -1,7 +1,4 @@
-
 from config.database import Database
-
-
 class BukuModel:
     def __init__(self):
         self.db = Database()
@@ -54,3 +51,36 @@ class BukuModel:
             if cursor is not None:
                 cursor.close()
             conn.close()
+            
+
+    def update_buku(self, id_buku, judul, penulis, tahun_terbit):
+        cursor = self.conn.cursor()
+
+        sql = """
+            UPDATE buku
+            SET judul = %s,
+                penulis = %s,
+                tahun_terbit = %s
+            WHERE id_buku = %s
+        """
+
+        cursor.execute(
+            sql, (judul, penulis, tahun_terbit, id_buku)
+        )
+
+        self.conn.commit()
+        hasil = cursor.rowcount
+        cursor.close()
+        return hasil
+
+    def delete_buku(self, id_buku):
+        cursor = self.conn.cursor()
+
+        sql = "DELETE FROM buku WHERE id_buku = %s"
+        cursor.execute(sql, (id_buku,))
+
+        self.conn.commit()
+        hasil = cursor.rowcount
+        cursor.close()
+        return hasil
+

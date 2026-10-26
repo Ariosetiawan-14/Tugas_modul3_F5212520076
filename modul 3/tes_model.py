@@ -19,3 +19,17 @@ daftar_buku = model.get_all_buku()
 
 for buku in daftar_buku:
     print(buku)
+    
+from models.buku_model import BukuModel
+
+buku = BukuModel()
+
+# Uji UPDATE
+hasil_update = buku.update_buku(
+    1, "Pemrograman Python", "Budi", 2025
+)
+print("Hasil update:", hasil_update)
+
+# Uji DELETE
+hasil_delete = buku.delete_buku(1)
+print("Hasil delete:", hasil_delete)
