@@ -21,3 +21,4 @@ if len(daftar_anggota) > 0:
         print(anggota)
 else:
     print("Belum ada data anggota.")
+    

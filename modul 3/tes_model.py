@@ -1,35 +1,49 @@
-
 from models.buku_model import BukuModel
 
 model = BukuModel()
 
-# Menguji penambahan buku
-berhasil = model.create_buku(
-    "Pemrograman Python",
-    "Guido van Rossum",
-    2023
-)
+def tampilkan_buku(judul_tabel):
+    print(f"\n--- {judul_tabel} ---")
+    for buku in model.get_all_buku():
+        # Menggunakan .get() agar kode otomatis mengenali apakah nama kolomnya 'id' atau 'id_buku' di database Anda
+        id_buku = buku.get('id', buku.get('id_buku'))
+        print(f"[{id_buku}] {buku['judul']} - {buku['penulis']} ({buku['tahun_terbit']})")
 
-if berhasil:
-    print("Data buku berhasil ditambahkan.")
+# ==========================================
+# 1. CREATE
+# ==========================================
+print("Menambahkan data buku...")
+model.create_buku("Pemrograman Python MVC", "Guido van Rossum", 2023)
+print("Data berhasil disimpan ke MySQL!")
 
-# Menguji pembacaan data
-print("\nDaftar Buku:")
+# Tampilkan data setelah di-create
+tampilkan_buku("Daftar Buku (setelah CREATE)")
+
+# Ambil ID buku terakhir yang baru saja ditambahkan untuk diuji pada Update & Delete
 daftar_buku = model.get_all_buku()
+id_terakhir = daftar_buku[-1].get('id', daftar_buku[-1].get('id_buku'))
 
-for buku in daftar_buku:
-    print(buku)
-    
-from models.buku_model import BukuModel
+# ==========================================
+# 2. UPDATE
+# ==========================================
+print(f"\nMengupdate buku dengan id {id_terakhir}...")
+# Mengubah judul menjadi ada tambahan "(Revisi)" dan tahun menjadi 2024
+if model.update_buku(id_terakhir, "Pemrograman Python MVC (Revisi)", "Guido van Rossum", 2024):
+    print("Data berhasil diupdate!")
+else:
+    print("Gagal update: id tidak ditemukan.")
 
-buku = BukuModel()
+# Tampilkan data setelah di-update
+tampilkan_buku("Daftar Buku (setelah UPDATE)")
 
-# Uji UPDATE
-hasil_update = buku.update_buku(
-    1, "Pemrograman Python", "Budi", 2025
-)
-print("Hasil update:", hasil_update)
+# ==========================================
+# 3. DELETE
+# ==========================================
+print(f"\nMenghapus buku dengan id {id_terakhir}...")
+if model.delete_buku(id_terakhir):
+    print("Data berhasil dihapus!")
+else:
+    print("Gagal hapus: id tidak ditemukan.")
 
-# Uji DELETE
-hasil_delete = buku.delete_buku(1)
-print("Hasil delete:", hasil_delete)
+# Tampilkan data setelah di-delete
+tampilkan_buku("Daftar Buku (setelah DELETE)")
