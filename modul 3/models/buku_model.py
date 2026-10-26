@@ -54,33 +54,47 @@ class BukuModel:
             
 
     def update_buku(self, id_buku, judul, penulis, tahun_terbit):
-        cursor = self.conn.cursor()
+        conn = self.db.get_connection()
+        if conn is None:
+            return 0
 
-        sql = """
-            UPDATE buku
-            SET judul = %s,
-                penulis = %s,
-                tahun_terbit = %s
-            WHERE id_buku = %s
-        """
-
-        cursor.execute(
-            sql, (judul, penulis, tahun_terbit, id_buku)
-        )
-
-        self.conn.commit()
-        hasil = cursor.rowcount
-        cursor.close()
-        return hasil
+        try:
+            cursor = conn.cursor()
+            sql = """
+                UPDATE buku
+                SET judul = %s,
+                    penulis = %s,
+                    tahun_terbit = %s
+                WHERE id = %s
+            """
+            cursor.execute(sql, (judul, penulis, tahun_terbit, id_buku))
+            conn.commit()
+            hasil = cursor.rowcount
+            cursor.close()
+            return hasil
+        except Exception as e:
+            conn.rollback()
+            print(f"Gagal mengupdate buku: {e}")
+            return 0
+        finally:
+            conn.close()
 
     def delete_buku(self, id_buku):
-        cursor = self.conn.cursor()
+        conn = self.db.get_connection()
+        if conn is None:
+            return 0
 
-        sql = "DELETE FROM buku WHERE id_buku = %s"
-        cursor.execute(sql, (id_buku,))
-
-        self.conn.commit()
-        hasil = cursor.rowcount
-        cursor.close()
-        return hasil
-
+        try:
+            cursor = conn.cursor()
+            sql = "DELETE FROM buku WHERE id = %s"
+            cursor.execute(sql, (id_buku,))
+            conn.commit()
+            hasil = cursor.rowcount
+            cursor.close()
+            return hasil
+        except Exception as e:
+            conn.rollback()
+            print(f"Gagal menghapus buku: {e}")
+            return 0
+        finally:
+            conn.close()
