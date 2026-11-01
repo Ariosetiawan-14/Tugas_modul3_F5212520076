@@ -1,6 +1,9 @@
 import customtkinter as ctk
 from tkinter import ttk
 
+# Mengatur tema menjadi terang agar sesuai dengan referensi gambar
+ctk.set_appearance_mode("Light")
+
 class BukuView(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -30,9 +33,15 @@ class BukuView(ctk.CTk):
         self.entry_tahun = ctk.CTkEntry(self.frame_kiri, placeholder_text="Tahun Terbit (Misal: 2024)")
         self.entry_tahun.pack(pady=10, padx=15, fill="x")
 
-        # Tombol Aksi
-        self.btn_simpan = ctk.CTkButton(self.frame_kiri, text="Simpan Data", fg_color="green")
-        self.btn_simpan.pack(pady=20, padx=15, fill="x")
+        # Tombol Aksi (Simpan, Perbarui, Hapus)
+        self.btn_simpan = ctk.CTkButton(self.frame_kiri, text="Simpan Data", fg_color="green", hover_color="darkgreen")
+        self.btn_simpan.pack(pady=(20, 10), padx=15, fill="x")
+
+        self.btn_perbarui = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue", hover_color="darkblue")
+        self.btn_perbarui.pack(pady=10, padx=15, fill="x")
+
+        self.btn_hapus = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red", hover_color="darkred")
+        self.btn_hapus.pack(pady=10, padx=15, fill="x")
 
         # ==========================================
         # FRAME KANAN: TABEL DAFTAR BUKU
@@ -40,7 +49,8 @@ class BukuView(ctk.CTk):
         self.frame_kanan = ctk.CTkFrame(self)
         self.frame_kanan.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-        ctk.CTkLabel(self.frame_kanan, text="Daftar Koleksi Buku", font=("Arial", 16, "bold")).pack(pady=15)
+        # Teks judul disesuaikan dengan identitas
+        ctk.CTkLabel(self.frame_kanan, text="Daftar Koleksi Buku, Ario Setiawan F5212520076", font=("Arial", 16, "bold")).pack(pady=15)
 
         # Komponen Tabel (Treeview dari tkinter standar)
         kolom = ("id", "judul", "penulis", "tahun")
@@ -64,3 +74,11 @@ class BukuView(ctk.CTk):
 if __name__ == "__main__":
     app = BukuView()
     app.mainloop()
+    
+    # Ario Setiawan F5212520076
+# --- TAMBAHAN KODE BARU: TOMBOL UPDATE & DELETE ---
+self.btn_update = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue")
+self.btn_update.pack(pady=10, padx=15, fill="x")
+
+self.btn_delete = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red")
+self.btn_delete.pack(pady=10, padx=15, fill="x")
