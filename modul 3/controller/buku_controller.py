@@ -1,7 +1,7 @@
 #Ario Setiawan Dg.Malino F5212520076
 import tkinter.messagebox as messagebox
-from models.buku_models import BukuModel
-from Views.buku_view import BukuView
+from models.buku_model import BukuModel
+from views.buku_view import BukuView
 
 class BukuController:
     def __init__(self):
@@ -17,10 +17,21 @@ class BukuController:
         if hasattr(self.view, 'btn_hapus'):
             self.view.btn_hapus.configure(command=self.hapus_data)
         if hasattr(self.view, 'btn_perbarui'):
-            self.view.btn_perbarui.configure(command=self.perbarui_data)
+            self.view.btn_perbarui.configure(command=self.update_data)
 
         # Memuat data ke tabel saat aplikasi pertama kali dibuka
         self.muat_data_tabel()
+        
+    def update_data(self):
+        # Nanti kode logika untuk memperbarui data database (Model) ditaruh di sini
+        print("Tombol Perbarui berfungsi!")
+        pass
+    def delete_data(self):
+        # Nanti kode logika untuk menghapus data ditaruh di sini
+        print("Tombol Hapus berfungsi!")
+        pass
+    
+
 
     def muat_data_tabel(self):
         # Mengosongkan tabel di View terlebih dahulu
@@ -32,7 +43,9 @@ class BukuController:
 
         # Memasukkan data baru ke dalam tabel View
         for buku in data_buku:
-            self.view.tabel.insert("", "end", values=(buku['id_buku'], buku['judul'], buku['penulis'], buku['tahun_terbit']))
+            self.view.tabel.insert("", "end", values=(buku['id'], buku['judul'], buku['penulis'], buku['tahun_terbit']))
+    def run(self):
+        self.view.mainloop()
 
     def simpan_data(self):
         # Mengambil teks dari input di View
