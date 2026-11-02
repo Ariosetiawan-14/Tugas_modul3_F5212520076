@@ -1,71 +1,88 @@
 import customtkinter as ctk
 from tkinter import ttk
 
-# Mengatur tema menjadi terang
-ctk.set_appearance_mode("Light")
-
 class AnggotaView(ctk.CTk):
     def __init__(self):
         super().__init__()
+
+        # --- Konfigurasi Jendela Utama ---
         self.title("Sistem Manajemen Perpustakaan - Data Anggota")
-        self.geometry("800x450")
-
-        # Konfigurasi Grid Utama (1 Baris, 2 Kolom)
-        self.grid_columnconfigure(0, weight=1) # Kolom Kiri (Form)
-        self.grid_columnconfigure(1, weight=2) # Kolom Kanan (Tabel lebih lebar)
-        self.grid_rowconfigure(0, weight=1)
+        self.geometry("900x500")
+        
+        # Mengatur tema tampilan menjadi terang agar sesuai dengan gambar
+        ctk.set_appearance_mode("light") 
 
         # ==========================================
-        # FRAME KIRI: FORMULIR INPUT ANGGOTA
+        # FRAME KIRI (Form Data Anggota)
         # ==========================================
-        self.frame_kiri = ctk.CTkFrame(self)
-        self.frame_kiri.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        self.frame_kiri = ctk.CTkFrame(self, corner_radius=10)
+        self.frame_kiri.pack(side="left", fill="y", padx=20, pady=20)
 
-        ctk.CTkLabel(self.frame_kiri, text="Form Data Anggota", font=("Arial", 16, "bold")).pack(pady=15)
+        # Judul Form
+        self.lbl_judul_form = ctk.CTkLabel(self.frame_kiri, text="Form Data Anggota", font=ctk.CTkFont(size=16, weight="bold"))
+        self.lbl_judul_form.pack(pady=(20, 20), padx=20)
 
-        # Komponen Input (Hanya Nama Anggota dan Alamat sesuai instruksi)
-        self.entry_nama = ctk.CTkEntry(self.frame_kiri, placeholder_text="Masukkan Nama Anggota")
-        self.entry_nama.pack(pady=10, padx=15, fill="x")
+        # Input Nama Anggota
+        self.entry_nama = ctk.CTkEntry(self.frame_kiri, placeholder_text="Masukkan Nama Anggota", width=250)
+        self.entry_nama.pack(pady=10, padx=20)
 
-        self.entry_alamat = ctk.CTkEntry(self.frame_kiri, placeholder_text="Masukkan Alamat")
-        self.entry_alamat.pack(pady=10, padx=15, fill="x")
+        # Input Alamat
+        self.entry_alamat = ctk.CTkEntry(self.frame_kiri, placeholder_text="Masukkan Alamat", width=250)
+        self.entry_alamat.pack(pady=(10, 30), padx=20) # Padding bawah lebih besar untuk jarak ke tombol
 
-        # Tombol Aksi (Disamakan dengan format buku_view)
+        # Tombol Simpan Data (Hijau)
         self.btn_simpan = ctk.CTkButton(self.frame_kiri, text="Simpan Data", fg_color="green", hover_color="darkgreen")
-        self.btn_simpan.pack(pady=(20, 10), padx=15, fill="x")
+        self.btn_simpan.pack(pady=10, padx=20, fill="x")
 
-        self.btn_perbarui = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue", hover_color="darkblue")
-        self.btn_perbarui.pack(pady=10, padx=15, fill="x")
+        # Tombol Perbarui Data (Biru)
+        self.btn_update = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue", hover_color="darkblue")
+        self.btn_update.pack(pady=10, padx=20, fill="x")
 
-        self.btn_hapus = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red", hover_color="darkred")
-        self.btn_hapus.pack(pady=10, padx=15, fill="x")
+        # Tombol Hapus Data (Merah)
+        self.btn_delete = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red", hover_color="darkred")
+        self.btn_delete.pack(pady=10, padx=20, fill="x")
 
         # ==========================================
-        # FRAME KANAN: TABEL DAFTAR ANGGOTA
+        # FRAME KANAN (Daftar Anggota Perpustakaan)
         # ==========================================
-        self.frame_kanan = ctk.CTkFrame(self)
-        self.frame_kanan.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        self.frame_kanan = ctk.CTkFrame(self, corner_radius=10)
+        self.frame_kanan.pack(side="right", fill="both", expand=True, padx=(0, 20), pady=20)
 
-        # Teks judul disesuaikan dengan identitas Anda
-        ctk.CTkLabel(self.frame_kanan, text="Daftar Anggota, Ario Setiawan F5212520076", font=("Arial", 16, "bold")).pack(pady=15)
+        # Judul Tabel
+        self.lbl_judul_tabel = ctk.CTkLabel(self.frame_kanan, text="Daftar Anggota Perpustakaan", font=ctk.CTkFont(size=16, weight="bold"))
+        self.lbl_judul_tabel.pack(pady=(20, 20))
 
-        # Komponen Tabel (Treeview dari tkinter standar)
-        kolom = ("id", "nama", "alamat")
-        self.tabel = ttk.Treeview(self.frame_kanan, columns=kolom, show="headings", height=15)
+        # --- Konfigurasi Tabel (Treeview) ---
+        style = ttk.Style()
+        style.theme_use("default")
+        style.configure("Treeview.Heading", font=('Arial', 10, 'bold'))
+        style.configure("Treeview", font=('Arial', 10), rowheight=25)
 
-        # Konfigurasi Header Tabel
-        self.tabel.heading("id", text="ID")
-        self.tabel.heading("nama", text="Nama Anggota")
-        self.tabel.heading("alamat", text="Alamat")
+        # Mendefinisikan Kolom Tabel
+        kolom_tabel = ("ID", "Nama Anggota", "Alamat")
+        self.tabel_anggota = ttk.Treeview(self.frame_kanan, columns=kolom_tabel, show="headings", height=15)
+        
+        # Mengatur Nama dan Lebar Kolom
+        self.tabel_anggota.heading("ID", text="ID")
+        self.tabel_anggota.column("ID", width=50, anchor="center")
 
-        # Konfigurasi Lebar Kolom
-        self.tabel.column("id", width=40, anchor="center")
-        self.tabel.column("nama", width=150)
-        self.tabel.column("alamat", width=200)
+        self.tabel_anggota.heading("Nama Anggota", text="Nama Anggota")
+        self.tabel_anggota.column("Nama Anggota", width=250, anchor="w")
 
-        self.tabel.pack(fill="both", expand=True, padx=15, pady=10)
+        self.tabel_anggota.heading("Alamat", text="Alamat")
+        self.tabel_anggota.column("Alamat", width=300, anchor="w")
 
-# Blok eksekusi untuk menguji tampilan grafis
+        self.tabel_anggota.pack(fill="both", expand=True, padx=20, pady=(0, 20))
+
+        # --- Memasukkan Data Dummy (Sesuai Contoh Gambar) ---
+        data_dummy = [
+            ("1", "Ario Setiawan Dg.Malino  F5212520076", "Jl. Soekarno Hatta No. 14"),
+            ("2", "Aulia Pratiwi Ayuningtias", "Jl. Marantale No. 7")
+        ]
+        
+        for data in data_dummy:
+            self.tabel_anggota.insert("", "end", values=data)
+
 if __name__ == "__main__":
     app = AnggotaView()
     app.mainloop()

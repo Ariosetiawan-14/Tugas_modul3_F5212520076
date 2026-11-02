@@ -75,10 +75,20 @@ if __name__ == "__main__":
     app = BukuView()
     app.mainloop()
     
-    # Ario Setiawan F5212520076
-# --- TAMBAHAN KODE BARU: TOMBOL UPDATE & DELETE ---
-self.btn_update = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue")
-self.btn_update.pack(pady=10, padx=15, fill="x")
+import customtkinter as ctk
 
-self.btn_delete = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red")
-self.btn_delete.pack(pady=10, padx=15, fill="x")
+class Aplikasi(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        
+        # Inisialisasi frame_kiri harus ada sebelum tombol dibuat
+        self.frame_kiri = ctk.CTkFrame(self)
+        self.frame_kiri.pack(side="left", fill="y")
+
+        # --- TAMBAHAN KODE BARU: TOMBOL UPDATE & DELETE ---
+        # Indentasi di bawah ini harus sejajar dengan baris self.frame_kiri di atas
+        self.btn_update = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue")
+        self.btn_update.pack(pady=10, padx=15, fill="x")
+
+        self.btn_delete = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red")
+        self.btn_delete.pack(pady=10, padx=15, fill="x")
