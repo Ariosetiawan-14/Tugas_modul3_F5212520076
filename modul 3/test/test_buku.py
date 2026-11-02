@@ -13,10 +13,11 @@ def test_create_buku_berhasil():
     mock_conn = MagicMock()
     mock_cursor = MagicMock()
 
-    # 3. Menghubungkan mock cursor ke mock koneksi
+    # 3. Menghubungkan cursor dengan koneksi
     mock_conn.cursor.return_value = mock_cursor
 
-    # 4. Mengatur mock koneksi pada model
+    # 4. Mengganti database dengan mock
+    model.db = MagicMock()
     model.db.get_connection.return_value = mock_conn
 
     # 5. Menjalankan fungsi tambah buku
@@ -24,7 +25,7 @@ def test_create_buku_berhasil():
         "Buku Testing", "Penulis QA", 2026
     )
 
-    # 6. Memeriksa hasil
+    # 6. Memeriksa hasil pengujian
     assert hasil is True
     mock_cursor.execute.assert_called_once()
     mock_conn.commit.assert_called_once()
