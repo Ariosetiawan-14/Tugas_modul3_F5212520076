@@ -98,3 +98,41 @@ class BukuModel:
             return 0
         finally:
             conn.close()
+
+
+def update_buku(self, id_buku, judul, penulis, tahun):
+    try:
+        sql = "UPDATE buku SET judul=%s, penulis=%s, tahun_terbit=%s WHERE id_buku=%s"
+        val = (judul, penulis, tahun, id_buku)
+        self.cursor.execute(sql, val)
+        self.koneksi.commit() # Baris ini wajib ada untuk menyimpan perubahan
+        return True
+    except:
+        return False
+    
+def delete_buku(self, id_buku):
+        conn = self.db.get_connection()
+        if conn is None:
+            return 0
+            
+        try:
+            cursor = conn.cursor()
+            # Perhatikan: pastikan WHERE id_buku (bukan WHERE id)
+            sql = "DELETE FROM buku WHERE id_buku = %s"
+            
+            # Mengeksekusi query dengan parameter id_buku
+            cursor.execute(sql, (id_buku,))
+            
+            # Wajib commit agar data benar-benar terhapus di database!
+            conn.commit() 
+            
+            hasil = cursor.rowcount
+            cursor.close()
+            return hasil
+            
+        except Exception as e:
+            conn.rollback()
+            print(f"Gagal menghapus buku: {e}")
+            return 0
+        finally:
+            conn.close()
