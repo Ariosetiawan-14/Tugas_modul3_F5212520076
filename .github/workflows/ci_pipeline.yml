@@ -37,8 +37,11 @@ jobs:
           else
             pip install pytest mysql-connector-python customtkinter
           fi
-
-      - name: 5. Menjalankan Automated Unit Testing (Pytest)
+         - name: 5. Menjalankan Linter (Flake8)
+        run: |
+          flake8 models/ controller/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          
+      - name: 6. Menjalankan Automated Unit Testing (Pytest)
         env:
           PYTHONPATH: .
         run: |
